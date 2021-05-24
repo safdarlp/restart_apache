@@ -8,7 +8,9 @@ then
     exit 1
 fi
 
-
+# only allow reload or restart.
+if [ "$COMMAND" == "reload" ] || [ "$COMMAND" == "restart" ]
+then
 # Move the current execution state to the proper directory
 cd /etc/apache2/sites-available
 
@@ -19,3 +21,9 @@ sudo service apache2 "$COMMAND"
 # Enable a vhost configuration
 sudo a2ensite "$CONFIG"
 sudo service apache2 "$COMMAND"
+
+else
+    echo "ERROR: $COMMAND is an invalid service command {restart|reload}"
+    exit 1
+fi
+
